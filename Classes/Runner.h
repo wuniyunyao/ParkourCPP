@@ -9,10 +9,12 @@
 #ifndef __PaoKu__Runner__
 #define __PaoKu__Runner__
 
+#define RATIO 32
+
 #include "cocos2d.h"
 #include "chipmunk.h"
 #include "cocos-ext.h"
-
+#include "Box2D\Box2D.h"
 USING_NS_CC;
 
 enum RunnerStat
@@ -30,9 +32,9 @@ private:
     CCSize  runningSize;
     CCSize crouchSize;
 
-    cpSpace *space;//current space;
+    /*cpSpace *space;//current space;
     cpBody *body;// runner chipmunk body
-    cpShape *shape;// runner chipmunk shape
+    cpShape *shape;// runner chipmunk shape*/
     RunnerStat m_stat;// init with running status
     CCAction *runningAction;
     CCAction *jumpUpAction;
@@ -42,7 +44,12 @@ private:
     CCParticleFlower *_emitter;
 
     float m_offsetPx;
-
+	/////////////////////////
+	b2World* mWorld;
+	b2Body* mBody;
+	//b2PolygonShape* shape;
+	b2PolygonShape shape;
+	//CCSize mCrouchSize;
 public:
     static Runner *create(cpSpace *space);
     Runner(cpSpace *space);
@@ -64,6 +71,9 @@ public:
         CCPhysicsSprite *sprite = CCPhysicsSprite::createWithSpriteFrameName("runnerCrouch0.png");
         return &sprite->getContentSize();
 	}
+	//////////////////////////////
+	static Runner *create(b2World *mWorld);
+	Runner(b2World *mWorld);
 };
 
 #endif /* defined(__PaoKu__Runner__) */

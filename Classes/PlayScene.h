@@ -9,8 +9,12 @@
 #ifndef __Parkour__PlayScene__
 #define __Parkour__PlayScene__
 
+#define RATIO 32
+
 #include "cocos2d.h"
 #include "chipmunk.h"
+#include "Box2D\Box2D.h"
+#include "GLES-Render.h"
 
 USING_NS_CC;
 
@@ -39,6 +43,7 @@ public:
     
     static CCScene* scene();
 private:
+	b2World* mWorld;
     cpSpace *space;
     cpShape *wallBottom;
     CCSpriteBatchNode *spriteSheet;
@@ -54,5 +59,12 @@ private:
     std::list<CCPoint> points;
     
     SimpleRecognizer *recognizer;
+	
+	//Debug
+	GLESDebugDraw* mDebugDraw; 
+	// 绘制物理世界debug区域
+    void draw();
+    // 开启物理世界debug
+    void setDebug(bool isDebug);
 };
 #endif /* defined(__Parkour__PlayScene__) */

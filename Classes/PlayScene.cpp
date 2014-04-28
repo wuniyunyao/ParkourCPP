@@ -22,7 +22,7 @@
 // c function for chipmunk
 static void postStepRemove(cpSpace *space, cpShape *shape, void *param)
 {
-    ObjectManager *objectManager = (ObjectManager *)param;
+    /*ObjectManager *objectManager = (ObjectManager *)param;
     switch (shape->collision_type) {
         case SpriteTagcoin:
             CCNotificationCenter::sharedNotificationCenter()->postNotification(NOTIFI_MEET_COIN);
@@ -33,15 +33,15 @@ static void postStepRemove(cpSpace *space, cpShape *shape, void *param)
             break;
         default:
             break;
-    }
+    }*/
 }
 
 static int collisionBegin(cpArbiter *arb, cpSpace *space, void *param)
 {
-    // we get shapes here, so postStepRemove's second param is cpShape
+    /*// we get shapes here, so postStepRemove's second param is cpShape
     CP_ARBITER_GET_SHAPES(arb, a, b);
     cpSpaceAddPostStepCallback(space, (cpPostStepFunc)postStepRemove, b, param);
-    return 0;
+    return 0;*/
 }
 
 CCScene* PlayLayer::scene()
@@ -52,23 +52,24 @@ CCScene* PlayLayer::scene()
     playLayer->setTag(TAG_PLAYER);
     scene->addChild(playLayer);
     
-    StatusLayer *statusLayer = StatusLayer::create();
-    statusLayer->setTag(TAG_STATUSLAYER);
-    scene->addChild(statusLayer);
+    //StatusLayer *statusLayer = StatusLayer::create();
+    //statusLayer->setTag(TAG_STATUSLAYER);
+    //scene->addChild(statusLayer);
     return scene;
 }
 
 PlayLayer::~PlayLayer()
 {
-    delete this->mapManager;
+    /*delete this->mapManager;
     delete this->objectManager;
     cpShapeFree(this->wallBottom);
-    cpSpaceFree(this->space);
+    cpSpaceFree(this->space);*/
 }
 
 bool PlayLayer::init()
 {
-    if (!CCLayer::init()) {
+    
+	/*if (!CCLayer::init()) {
         return false;
     }
     
@@ -83,8 +84,44 @@ bool PlayLayer::init()
                                    cpv(0, MapManager::getGroundHeight()),// start point
                                    cpv(4294967295, MapManager::getGroundHeight()),// MAX INT:4294967295
                                    0);// thickness of wall
-    cpSpaceAddStaticShape(this->space, wallBottom);
+    cpSpaceAddStaticShape(this->space, wallBottom);*/
+	//////////////////////////////////
+	//new code for Box2D added by wuniyunyao
+	if (!CCLayer::init()) {
+        return false;
+    }
+	 setTouchEnabled(true);
+	 setTouchMode(kCCTouchesOneByOne);
+	 recognizer = new SimpleRecognizer();
+	// initPhysics, must init first
+	this->mWorld = new b2World(b2Vec2(0,-10));
+	this->mWorld->SetAllowSleeping(true);
+    this->mWorld->SetContinuousPhysics(true);
 
+	b2Body* ground = NULL;
+    b2BodyDef bd;
+    ground = mWorld->CreateBody(&bd);
+
+	// 地板
+    b2EdgeShape shape;
+    shape.Set(b2Vec2(0, MapManager::getGroundHeight() / RATIO), b2Vec2(INT_MAX, MapManager::getGroundHeight() / RATIO));
+	b2FixtureDef fixDef;
+    fixDef.shape = &shape;
+	fixDef.friction = 0;
+    ground->CreateFixture(&fixDef);
+	setDebug(true);
+
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
+    this->spriteSheet = CCSpriteBatchNode::create("parkour.png");
+    this->addChild(spriteSheet);
+
+	this->runner = Runner::create(this->mWorld);
+    this->spriteSheet->addChild(this->runner);
+
+	 scheduleUpdate();
+
+	/////////////////////////////////
+	/*
     this->mapManager = new MapManager(this, this->space);
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
@@ -117,6 +154,7 @@ bool PlayLayer::init()
     addChild(debugLayer, 100);
     debugLayer->setVisible(true);
 #endif
+	*/
     return true;
 }
 
@@ -166,32 +204,32 @@ void PlayLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 void PlayLayer::onExit()
 {
-    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, NOTIFI_MEET_COIN);
-    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, NOTIFI_MEET_ROCK);
+    /*CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, NOTIFI_MEET_COIN);
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, NOTIFI_MEET_ROCK);*/
     
     CCLayer::onExit();
 }
 
 void PlayLayer::notifiCoin(CCObject *unuse)
 {
-    CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
+    /*CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
     audioEngine->playEffect("pickup_coin.mp3");
     StatusLayer *statusLayer = (StatusLayer *)getParent()->getChildByTag(TAG_STATUSLAYER);
-    statusLayer->addCoin(1);
+    statusLayer->addCoin(1);*/
 }
 
 void PlayLayer::notifiRock(CCObject *unuse)
 {
-    GameOverLayer *gameoverLayer = GameOverLayer::create(ccc4(0, 0, 0, 180));
+    /*GameOverLayer *gameoverLayer = GameOverLayer::create(ccc4(0, 0, 0, 180));
     gameoverLayer->setTag(TAG_GAMEOVER);
     getParent()->addChild(gameoverLayer);
     
-    CCDirector::sharedDirector()->pause();
+    CCDirector::sharedDirector()->pause();*/
 }
 
 void PlayLayer::update(float dt)
 {
-    // chipmunk step
+    /*// chipmunk step
     cpSpaceStep(this->space, dt);
     
     // check and reload map
@@ -211,5 +249,43 @@ void PlayLayer::update(float dt)
     camera->setCenterXYZ(lastEyeX, 0, 0);
     
     StatusLayer *statusLayer = (StatusLayer *)getParent()->getChildByTag(TAG_STATUSLAYER);
-    statusLayer->updateMeter(lastEyeX);
+    statusLayer->updateMeter(lastEyeX);*/
+	////////////////////////////////////////
+	mWorld->Step(dt, 10, 8);
+	
+	lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
+    CCCamera *camera = this->getCamera();
+    float eyeZ = camera->getZEye();
+    camera->setEyeXYZ(lastEyeX, 0, eyeZ);
+    camera->setCenterXYZ(lastEyeX, 0, 0);
+
+	this->runner->step(dt);
+}
+
+void PlayLayer::setDebug(bool isDebug)
+{
+    if (isDebug) {
+        mDebugDraw = new GLESDebugDraw(RATIO);
+        mWorld->SetDebugDraw(mDebugDraw);
+        
+        uint32 flags = 0;
+        flags += b2Draw::e_shapeBit;
+        flags += b2Draw::e_jointBit;
+        flags += b2Draw::e_pairBit;
+        flags += b2Draw::e_centerOfMassBit;
+        mDebugDraw->SetFlags(flags);
+        draw();
+        
+    }
+}
+
+void PlayLayer::draw()
+{
+    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+    
+    kmGLPushMatrix();
+    
+    mWorld->DrawDebugData();
+    
+    kmGLPopMatrix();
 }

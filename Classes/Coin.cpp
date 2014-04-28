@@ -18,7 +18,7 @@ Coin *Coin::create(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint posit
 
 Coin::Coin(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint position)
 {
-    this->pSpace = space;
+	/*this->pSpace = space;
 
     CCArray *animFrames = CCArray::create();
     for (int i = 0; i < 8; i++)
@@ -47,7 +47,7 @@ Coin::Coin(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint position)
     cpShapeSetUserData(this->pShape, this);
     
     this->runAction(action);
-    spriteSheet->addChild(this);
+    spriteSheet->addChild(this);*/
 }
 
 void Coin::removeFromParent()
