@@ -128,6 +128,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Box2DTMXTool.cpp" />
     <ClCompile Include="..\Classes\Coin.cpp" />
     <ClCompile Include="..\Classes\GameOverLayer.cpp" />
     <ClCompile Include="..\Classes\MainScene.cpp" />
@@ -144,6 +145,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\AppMacros.h" />
+    <ClInclude Include="..\Classes\Box2DTMXTool.h" />
     <ClInclude Include="..\Classes\Coin.h" />
     <ClInclude Include="..\Classes\Constant.h" />
     <ClInclude Include="..\Classes\GameOverLayer.h" />
@@ -155,6 +157,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Rock.h" />
     <ClInclude Include="..\Classes\Runner.h" />
     <ClInclude Include="..\Classes\SimpleRecognizer.h" />
+    <ClInclude Include="..\Classes\StaticBlockObject.h" />
     <ClInclude Include="..\Classes\StatusLayer.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
