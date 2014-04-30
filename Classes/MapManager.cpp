@@ -65,7 +65,6 @@ bool MapManager::checkAndReload(float eyeX)
     curMap = newCur;
     CCLOG("==load map:%d",(newCur + 1));
     currentMap->reload(curMap + 1);
-	//tool.destoryAllBlocks();
 	tool.readTiledMapForBlocks(mWorld,currentMap->map,spriteWidth*(curMap + 1));
     return true;
 }

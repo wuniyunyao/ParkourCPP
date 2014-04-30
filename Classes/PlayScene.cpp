@@ -112,6 +112,7 @@ bool PlayLayer::init()
 	b2FixtureDef fixDef;
     fixDef.shape = &shape;
 	fixDef.friction = 0;
+	//fixDef.restitution = -1;
     ground->CreateFixture(&fixDef);
 	setDebug(true);
 

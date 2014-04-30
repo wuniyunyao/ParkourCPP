@@ -140,15 +140,15 @@ void Runner::initBody()
 	b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     // 初始速度1.5
-	//bodyDef.fixedRotation = false;
+	bodyDef.fixedRotation = true;
     bodyDef.linearVelocity = b2Vec2(5, 0);
     bodyDef.position = b2Vec2(m_offsetPx / RATIO, (MapManager::getGroundHeight() + this->runningSize.height / 2 )/ RATIO);
+	bodyDef.angle = 0; //set the starting angle
 	mBody = mWorld->CreateBody(&bodyDef);
     
     // 关联起来
     this->setB2Body(mBody);
 	this->setPTMRatio(RATIO);
-	///////////////////////////
 }
 
 void Runner::levelUp()
@@ -198,6 +198,8 @@ void Runner::initShape(const char* type)
     b2FixtureDef fixDef;
     fixDef.friction = 0.0f;
     fixDef.shape = (b2Shape*)&shape;
+	fixDef.density = 1;
+	//fixDef.restitution = 1;
     mBody->CreateFixture(&fixDef);
 	/////////////////////////////////////////
 }

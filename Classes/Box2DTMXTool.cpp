@@ -30,9 +30,9 @@ bool Box2DTMXTool::readTiledMapForBlocks(b2World* world,CCTMXTiledMap* tiledmap,
         
         StaticBlockObject *sb_obj = new StaticBlockObject();
         
-        sb_obj->density = 1.0f;
-        sb_obj->friction = 0;
-        sb_obj->restitution = 0.0f;
+        //sb_obj->density = 1.0f;
+        //sb_obj->friction = 0;
+        //sb_obj->restitution = 0.0f;
         
         // 读取所有形状的起始点
         float x = ((CCString*)dict->objectForKey("x"))->floatValue()/contentScaleFactor+ xOffset;

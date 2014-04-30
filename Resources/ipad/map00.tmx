@@ -14,5 +14,8 @@
   <object x="1504" y="448" width="193" height="30"/>
   <object x="1697" y="384" width="191" height="32"/>
   <object x="1856" y="321" width="193" height="32"/>
+  <object x="808" y="667">
+   <polyline points="0,0 412,-92 582,-197"/>
+  </object>
  </objectgroup>
 </map>
