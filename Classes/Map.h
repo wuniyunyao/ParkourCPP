@@ -12,12 +12,14 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "chipmunk.h"
+#include "Box2DTMXTool.h"
 
 USING_NS_CC;
 
-class Map : public CCSprite
+class Map : public CCNode
 {
 public:
+	CCTMXTiledMap *map;
     static Map *create(int index);
     Map(int index);
     ~Map();
@@ -26,6 +28,7 @@ public:
 private:
     const char *getMapName(int index);
     const char *getGroundName(int index);
+	
 };
 
 #endif /* defined(__PaoKu__Map__) */

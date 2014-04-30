@@ -13,6 +13,7 @@
 #include "MapManager.h"
 
 #define GROUND_TAG (10)
+#define MAP_TAG (11)
 
 Map *Map::create(int index)
 {
@@ -23,15 +24,18 @@ Map *Map::create(int index)
 
 Map::Map(int index)
 {
-    this->initWithFile(getMapName(index));
-    this->setAnchorPoint(ccp(0, 0));
-    this->setPosition(ccp(getContentSize().width * index, 0));
+    this->map=CCTMXTiledMap::create(getMapName(index));
+	//this->setAnchorPoint(ccp(0, 0));
+    this->map->setPosition(ccp(this->map->getContentSize().width * index, 0));
+	this->map->setTag(MAP_TAG);
+	//this->map->retain();
+	this->addChild(this->map,0);
     
     CCSprite *ground = CCSprite::create(getGroundName(index));
     ground->setAnchorPoint(ccp(0, 1));
     ground->setTag(GROUND_TAG);
-    ground->setPosition(ccp(0, MapManager::getGroundHeight()));
-    addChild(ground);
+    ground->setPosition(ccp(this->map->getContentSize().width * index, MapManager::getGroundHeight()));
+    this->addChild(ground,1);
 }
 
 Map::~Map()
@@ -40,7 +44,7 @@ Map::~Map()
 
 const char *Map::getMapName(int index)
 {
-    CCString *fileName = CCString::createWithFormat( "Map%02d.png", index % MAP_COUNT);
+    CCString *fileName = CCString::createWithFormat( "map%02d.tmx", index % MAP_COUNT);
     return fileName->getCString();
 }
 
@@ -52,11 +56,15 @@ const char *Map::getGroundName(int index)
 
 void Map::reload(int index)
 {
-    CCTexture2D *texture = CCTextureCache::sharedTextureCache()->addImage(getMapName(index));
-    this->setTexture(texture);
-    this->setPositionX(getContentSize().width * index);
+	this->removeChildByTag(MAP_TAG);
+	this->map=CCTMXTiledMap::create(getMapName(index));
+    this->map->setPositionX(this->map->getContentSize().width * index);
+	this->map->setTag(MAP_TAG);
+	this->addChild(this->map,0);
+	//this->map->retain();
     
     CCTexture2D *textureGround = CCTextureCache::sharedTextureCache()->addImage(getGroundName(index));
-    CCSprite *ground = (CCSprite *)getChildByTag(GROUND_TAG);
+    CCSprite *ground = (CCSprite *)(this->getChildByTag(GROUND_TAG));
+	ground->setPositionX(this->map->getContentSize().width * index);
     ground->setTexture(textureGround);
 }

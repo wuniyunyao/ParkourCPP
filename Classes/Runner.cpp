@@ -140,6 +140,7 @@ void Runner::initBody()
 	b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     // 初始速度1.5
+	bodyDef.fixedRotation = false;
     bodyDef.linearVelocity = b2Vec2(5, 0);
     bodyDef.position = b2Vec2(m_offsetPx / RATIO, (MapManager::getGroundHeight() + this->runningSize.height / 2 )/ RATIO);
 	mBody = mWorld->CreateBody(&bodyDef);
@@ -180,7 +181,7 @@ void Runner::initShape(const char* type)
     if (strcmp(type,RUNING_MODE) == 0)
     {
         // 人物站立，中心改变，调整位置
-        mBody->SetTransform(b2Vec2(mBody->GetPosition().x, (MapManager::getGroundHeight() + runningSize.height / 2) / RATIO), mBody->GetAngle());
+        //mBody->SetTransform(b2Vec2(mBody->GetPosition().x, (MapManager::getGroundHeight() + runningSize.height / 2) / RATIO), mBody->GetAngle());
         
         // 定义runner的形状，一个box，参数是半宽高
         shape.SetAsBox(runningSize.width / 2 / RATIO,runningSize.height / 2 / RATIO);
@@ -189,7 +190,7 @@ void Runner::initShape(const char* type)
     }else
     {
         // 由于人物下蹲的大小和站立大小不一致，所以要下调位置
-        mBody->SetTransform(b2Vec2(mBody->GetPosition().x, (MapManager::getGroundHeight()+ crouchSize.height / 2) / RATIO) ,mBody->GetAngle());
+        //mBody->SetTransform(b2Vec2(mBody->GetPosition().x, (MapManager::getGroundHeight()+ crouchSize.height / 2) / RATIO) ,mBody->GetAngle());
         
         // 定义runner下蹲的形状，一个box，参数是半宽高
         shape.SetAsBox(crouchSize.width / 2 / RATIO, crouchSize.height / 2 / RATIO);
@@ -212,12 +213,13 @@ void Runner::jump()
         CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
         audioEngine->playEffect("jump.mp3");
     }*/
-	 if (m_stat == RunnerStatRunning) {
+	 if (m_stat == RunnerStatRunning/*||RunnerStatCrouch*/) {
         float impulse = mBody->GetMass() * 10;
         // 根据物体质量，施加一个向上的力，人物就会跳起
         mBody->ApplyLinearImpulse(b2Vec2(0, impulse), mBody->GetWorldCenter());
         m_stat = RunnerStatJumpUp;
         this->stopAllActions();
+		//unschedule(schedule_selector(Runner::loadNormal));
         this->runAction(this->jumpUpAction);
 		
 		CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
@@ -279,5 +281,6 @@ void Runner::step(float dt)
             this->runAction(this->runningAction);
         }
     }
+	mBody->SetLinearVelocity(b2Vec2(5,vel.y));
     
 }

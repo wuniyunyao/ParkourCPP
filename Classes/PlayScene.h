@@ -33,6 +33,7 @@ class PlayLayer : public CCLayer
 {
 public:
     CREATE_FUNC(PlayLayer);
+	PlayLayer();
     ~PlayLayer();
     virtual void onExit();
     virtual bool init();

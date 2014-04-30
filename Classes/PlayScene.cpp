@@ -44,6 +44,10 @@ static int collisionBegin(cpArbiter *arb, cpSpace *space, void *param)
     return 0;*/
 }
 
+PlayLayer::PlayLayer():
+lastEyeX(0)
+{
+}
 CCScene* PlayLayer::scene()
 {
     CCScene *scene = CCScene::create();
@@ -111,12 +115,15 @@ bool PlayLayer::init()
     ground->CreateFixture(&fixDef);
 	setDebug(true);
 
+	this->mapManager = new MapManager(this, this->mWorld);
+
 	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
     this->spriteSheet = CCSpriteBatchNode::create("parkour.png");
-    this->addChild(spriteSheet);
+    this->addChild(spriteSheet,1);
 
 	this->runner = Runner::create(this->mWorld);
     this->spriteSheet->addChild(this->runner);
+
 
 	 scheduleUpdate();
 
@@ -252,6 +259,13 @@ void PlayLayer::update(float dt)
     statusLayer->updateMeter(lastEyeX);*/
 	////////////////////////////////////////
 	mWorld->Step(dt, 10, 8);
+	
+	if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
+       // this->objectManager->removeObjectOfMap(this->mapManager->getCurMap() - 1);
+        //this->objectManager->initObjectOfMap(this->mapManager->getCurMap() + 1, this->mapManager->getMapWidth());
+        //level up
+       // this->runner->levelUp();
+    }
 	
 	lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
     CCCamera *camera = this->getCamera();

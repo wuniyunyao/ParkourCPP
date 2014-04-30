@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 #include "chipmunk.h"
+#include "Box2D\Box2D.h"
+#include "Box2DTMXTool.h"
 
 USING_NS_CC;
 
@@ -26,8 +28,12 @@ private:
     
     Map *map0;
     Map *map1;
+	///////////////////////
+	b2World* mWorld;
+	Box2DTMXTool tool;
 public:
     MapManager(CCLayer *parent, cpSpace *pSpace);
+	MapManager(CCLayer *parent, b2World *mWorld);
     ~MapManager();
 
     static float getGroundHeight() {return 50.0;};
