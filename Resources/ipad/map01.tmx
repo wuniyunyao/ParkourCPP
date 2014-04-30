@@ -25,5 +25,8 @@
   <object x="1920" y="128" width="929" height="66"/>
   <object x="2784" y="0" width="63" height="127"/>
   <object x="2786" y="321" width="60" height="416"/>
+  <object x="1018" y="697">
+   <polygon points="0,0 215,-6 101,-111"/>
+  </object>
  </objectgroup>
 </map>

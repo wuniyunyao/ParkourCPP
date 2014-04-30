@@ -140,7 +140,7 @@ void Runner::initBody()
 	b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     // ³õÊ¼ËÙ¶È1.5
-	bodyDef.fixedRotation = false;
+	//bodyDef.fixedRotation = false;
     bodyDef.linearVelocity = b2Vec2(5, 0);
     bodyDef.position = b2Vec2(m_offsetPx / RATIO, (MapManager::getGroundHeight() + this->runningSize.height / 2 )/ RATIO);
 	mBody = mWorld->CreateBody(&bodyDef);
