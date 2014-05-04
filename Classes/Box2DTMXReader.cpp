@@ -329,8 +329,3 @@ Box2DTMXReader::~Box2DTMXReader(){
 		}
 	}
 }
-
-bool Box2DTMXReader::destroyFixture(b2Fixture* fixture){
-	mBody->DestroyFixture(fixture);
-	return true;
-}

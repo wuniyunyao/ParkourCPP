@@ -2,6 +2,7 @@
 #define __BOX2DTMXTOOL_H_
 
 #include "cocos2d.h"
+#include "cocos-ext.h"
 #include "Box2D\Box2D.h"
 #include "StaticBlockObject.h"
 
@@ -25,7 +26,6 @@ public:
 	bool readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap,float xOffset);
 	bool readTiledMap(b2World* world,CCTMXTiledMap *tiledmap);
 	bool readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap);
-	bool destroyFixture(b2Fixture* fixture);
 
 	void destory();
 	std::vector<IdentifiedObject*> mIdentifiedObjectList;

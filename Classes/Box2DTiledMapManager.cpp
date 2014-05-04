@@ -38,21 +38,35 @@ bool Box2DTiledMapManager::readTiledMapForBlocks(b2World* world,CCTMXTiledMap *t
 	autorelease();
 	return tag;
 }
-bool Box2DTiledMapManager::readTiledMapForCoins(b2World* world,CCTMXTiledMap *tiledmap,float xOffset){
+bool Box2DTiledMapManager::readTiledMapForCoins(CCSpriteBatchNode* spritesheet, b2World* world,CCTMXTiledMap *tiledmap,float xOffset){
 	Box2DTMXReader* newReader = new Box2DTMXReader();
 	bool tag = newReader->readTiledMapForMultipleBodys(world,tiledmap,xOffset,"CoinObjects",b2_kinematicBody);
 	coinReaderList.push_back(newReader);
+	std::vector<IdentifiedObject*>::iterator it;
+	for(it=newReader->mIdentifiedObjectList.begin();it!=newReader->mIdentifiedObjectList.end();it++)
+	{
+		bindSprite(spritesheet, (*it)->body);
+	}
 	autorelease();
 	return tag;
 }
-bool Box2DTiledMapManager::readTiledMapForCoins(b2World* world,CCTMXTiledMap *tiledmap){
+bool Box2DTiledMapManager::readTiledMapForCoins(CCSpriteBatchNode* spritesheet,b2World* world,CCTMXTiledMap *tiledmap){
 	Box2DTMXReader* newReader = new Box2DTMXReader();
 	bool tag = newReader->readTiledMapForMultipleBodys(world,tiledmap,0,"CoinObjects",b2_kinematicBody);
 	coinReaderList.push_back(newReader);
+	std::vector<IdentifiedObject*>::iterator it;
+	for(it=newReader->mIdentifiedObjectList.begin();it!=newReader->mIdentifiedObjectList.end();it++)
+	{
+		bindSprite(spritesheet, (*it)->body);
+	}
 	autorelease();
 	return tag;
 }
 
-void Box2DTiledMapManager::destroyCoin(b2Fixture* fixture){
-	coinReaderList.front()->destroyFixture(fixture);
+void Box2DTiledMapManager::destroyBody(b2Body* body){
+	mWorld->DestroyBody(body);
+}
+
+void Box2DTiledMapManager::bindSprite(CCSpriteBatchNode* spritesheet, b2Body* body){
+	Coin* coin = Coin::create(spritesheet,body);
 }

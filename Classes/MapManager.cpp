@@ -24,21 +24,24 @@ curMap(0)
     this->map1 = Map::create(1);
     parent->addChild(this->map1);*/
 }
-MapManager::MapManager(CCLayer *parent, b2World* mWorld):
+MapManager::MapManager(CCSpriteBatchNode* spritesheet,CCLayer *parent, b2World* mWorld):
 spriteWidth(0),
 curMap(0)
 {
     this->mWorld = mWorld;
+	this->mSpritesheet = spritesheet;
 
     this->map0 = Map::create(0);
     parent->addChild(this->map0,0);
 	tool.readTiledMapForBlocks(mWorld,this->map0->map);
+	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map0->map);
 
     spriteWidth = this->map0->map->getContentSize().width;
 
     this->map1 = Map::create(1);
     parent->addChild(this->map1,0);
 	tool.readTiledMapForBlocks(mWorld,this->map1->map,spriteWidth);
+	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map0->map,spriteWidth);
 }
 
 MapManager::~MapManager()

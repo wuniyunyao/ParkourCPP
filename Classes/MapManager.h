@@ -31,9 +31,10 @@ private:
 	///////////////////////
 	b2World* mWorld;
 	Box2DTiledMapManager tool;
+	CCSpriteBatchNode* mSpritesheet;
 public:
     MapManager(CCLayer *parent, cpSpace *pSpace);
-	MapManager(CCLayer *parent, b2World *mWorld);
+	MapManager(CCSpriteBatchNode* spritesheet, CCLayer *parent, b2World *mWorld);
     ~MapManager();
 
     static float getGroundHeight() {return 50.0;};

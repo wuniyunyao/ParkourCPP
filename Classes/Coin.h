@@ -11,15 +11,15 @@
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
-#include "chipmunk.h"
-
+#include "Box2D\Box2D.h"
+#include "Box2DTiledMapManager.h"
 USING_NS_CC;
 
 class Coin : public extension::CCPhysicsSprite
 {
 public:
-    static Coin *create(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint position);
-    Coin(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint position);
+    static Coin *create(CCSpriteBatchNode *spriteSheet, b2Body *body);
+    Coin(CCSpriteBatchNode *spriteSheet, b2Body *body);
     virtual void removeFromParent();
     
     
@@ -29,9 +29,9 @@ public:
         return &sprite->getContentSize();
 	}
 private:
-    cpSpace *pSpace;//weak ref
-    cpShape *pShape;
-    cpBody *pBody;
+    //cpSpace *pSpace;//weak ref
+    //b2Shape *pShape;
+    b2Body *pBody;
 
 };
 

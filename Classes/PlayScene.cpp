@@ -116,11 +116,13 @@ bool PlayLayer::init()
     ground->CreateFixture(&fixDef);
 	setDebug(true);
 
-	this->mapManager = new MapManager(this, this->mWorld);
+	
 
 	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
     this->spriteSheet = CCSpriteBatchNode::create("parkour.png");
     this->addChild(spriteSheet,1);
+
+	this->mapManager = new MapManager(this->spriteSheet,this, this->mWorld);
 
 	this->runner = Runner::create(this->mWorld);
     this->spriteSheet->addChild(this->runner);
