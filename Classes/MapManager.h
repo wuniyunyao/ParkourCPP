@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 #include "chipmunk.h"
 #include "Box2D\Box2D.h"
-#include "Box2DTMXTool.h"
+#include "Box2DTiledMapManager.h"
 
 USING_NS_CC;
 
@@ -30,7 +30,7 @@ private:
     Map *map1;
 	///////////////////////
 	b2World* mWorld;
-	Box2DTMXTool tool;
+	Box2DTiledMapManager tool;
 public:
     MapManager(CCLayer *parent, cpSpace *pSpace);
 	MapManager(CCLayer *parent, b2World *mWorld);

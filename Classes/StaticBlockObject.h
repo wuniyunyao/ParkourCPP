@@ -1,6 +1,5 @@
 #ifndef __STATICBLOCKOBJECT_H_
 #define __STATICBLOCKOBJECT_H_
-#define PTM_RATIO 32
 #include "cocos2d.h"
 #include "Box2D\Box2D.h"
 using namespace cocos2d;
@@ -10,7 +9,7 @@ using namespace cocos2d;
 创建者：无逆云遥
 创建日期：2013/4/24
 */
-class StaticBlockObject{
+class IdentifiedObject{
 public:
 	enum type
 	{
@@ -19,13 +18,16 @@ public:
 	};
 	type shape;
 	b2Fixture* fixture;
+	b2Body* body;
 	float32 friction;
     float32 restitution;
     float32 density;
-	StaticBlockObject(){
+	IdentifiedObject(){
 		density = 1.0f;
 		friction = 0;
 		restitution = 0;
+		fixture = NULL;
+		body = NULL;
 	};
 };
 #endif //__STATICBLOCKOBJECT_H_

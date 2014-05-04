@@ -22,7 +22,7 @@ Rock *Rock::create(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint posit
 
 Rock::Rock(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint position)
 {
-    /*this->pSpace = space;
+    this->pSpace = space;
     
     if ( position.y >= (MapManager::getGroundHeight() + Runner::getCrouchContentSize()->height) ) {
         this->initWithSpriteFrameName("hathpace.png");
@@ -44,7 +44,7 @@ Rock::Rock(CCSpriteBatchNode *spriteSheet, cpSpace *space, CCPoint position)
     // for collision
     cpShapeSetUserData(this->pShape, this);
     
-    spriteSheet->addChild(this);*/
+    spriteSheet->addChild(this);
 }
 
 void Rock::removeFromParent()

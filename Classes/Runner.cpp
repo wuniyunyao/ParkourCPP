@@ -142,13 +142,13 @@ void Runner::initBody()
     // 初始速度1.5
 	bodyDef.fixedRotation = true;
     bodyDef.linearVelocity = b2Vec2(5, 0);
-    bodyDef.position = b2Vec2(m_offsetPx / RATIO, (MapManager::getGroundHeight() + this->runningSize.height / 2 )/ RATIO);
+    bodyDef.position = b2Vec2(m_offsetPx /  PTM_RATIO, (MapManager::getGroundHeight() + this->runningSize.height / 2 )/  PTM_RATIO);
 	bodyDef.angle = 0; //set the starting angle
 	mBody = mWorld->CreateBody(&bodyDef);
     
     // 关联起来
     this->setB2Body(mBody);
-	this->setPTMRatio(RATIO);
+	this->setPTMRatio(PTM_RATIO);
 }
 
 void Runner::levelUp()
@@ -184,7 +184,7 @@ void Runner::initShape(const char* type)
         //mBody->SetTransform(b2Vec2(mBody->GetPosition().x, (MapManager::getGroundHeight() + runningSize.height / 2) / RATIO), mBody->GetAngle());
         
         // 定义runner的形状，一个box，参数是半宽高
-        shape.SetAsBox(runningSize.width / 2 / RATIO,runningSize.height / 2 / RATIO);
+        shape.SetAsBox(runningSize.width / 2 /  PTM_RATIO,runningSize.height / 2 /  PTM_RATIO);
         
 
     }else
@@ -193,7 +193,7 @@ void Runner::initShape(const char* type)
         //mBody->SetTransform(b2Vec2(mBody->GetPosition().x, (MapManager::getGroundHeight()+ crouchSize.height / 2) / RATIO) ,mBody->GetAngle());
         
         // 定义runner下蹲的形状，一个box，参数是半宽高
-        shape.SetAsBox(crouchSize.width / 2 / RATIO, crouchSize.height / 2 / RATIO);
+        shape.SetAsBox(crouchSize.width / 2 /  PTM_RATIO, crouchSize.height / 2 /  PTM_RATIO);
     }
     b2FixtureDef fixDef;
     fixDef.friction = 0.0f;
@@ -283,6 +283,7 @@ void Runner::step(float dt)
             this->runAction(this->runningAction);
         }
     }
-	mBody->SetLinearVelocity(b2Vec2(5,vel.y));
+	//if(mBody->GetLinearVelocity().x<5)
+		mBody->SetLinearVelocity(b2Vec2(5,vel.y));
     
 }

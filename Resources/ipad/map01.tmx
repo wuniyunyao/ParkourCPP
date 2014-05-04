@@ -26,4 +26,11 @@
   <object x="2784" y="0" width="63" height="127"/>
   <object x="2786" y="321" width="60" height="416"/>
  </objectgroup>
+ <objectgroup name="CoinObjects" width="96" height="24">
+  <object x="1556" y="496" width="38" height="40"/>
+  <object x="1617" y="496" width="39" height="40"/>
+  <object x="1677" y="496" width="42" height="39"/>
+  <object x="1739" y="495" width="42" height="40"/>
+ </objectgroup>
+ <objectgroup name="TrapObjects" width="96" height="24"/>
 </map>

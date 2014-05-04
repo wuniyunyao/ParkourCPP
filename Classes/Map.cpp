@@ -61,10 +61,11 @@ void Map::reload(int index)
     this->map->setPositionX(this->map->getContentSize().width * index);
 	this->map->setTag(MAP_TAG);
 	this->addChild(this->map,0);
-	//this->map->retain();
+	
     
     CCTexture2D *textureGround = CCTextureCache::sharedTextureCache()->addImage(getGroundName(index));
     CCSprite *ground = (CCSprite *)(this->getChildByTag(GROUND_TAG));
 	ground->setPositionX(this->map->getContentSize().width * index);
     ground->setTexture(textureGround);
 }
+

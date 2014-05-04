@@ -108,7 +108,7 @@ bool PlayLayer::init()
 
 	// 地板
     b2EdgeShape shape;
-    shape.Set(b2Vec2(0, MapManager::getGroundHeight() / RATIO), b2Vec2(INT_MAX, MapManager::getGroundHeight() / RATIO));
+    shape.Set(b2Vec2(0, MapManager::getGroundHeight() / PTM_RATIO), b2Vec2(INT_MAX, MapManager::getGroundHeight() /  PTM_RATIO));
 	b2FixtureDef fixDef;
     fixDef.shape = &shape;
 	fixDef.friction = 0;
@@ -124,6 +124,9 @@ bool PlayLayer::init()
 
 	this->runner = Runner::create(this->mWorld);
     this->spriteSheet->addChild(this->runner);
+
+	//this->objectManager = new ObjectManager(this->spriteSheet, this->mWorld);
+    //this->objectManager->initObjectOfMap(1, this->mapManager->getMapWidth());
 
 
 	 scheduleUpdate();
@@ -280,7 +283,7 @@ void PlayLayer::update(float dt)
 void PlayLayer::setDebug(bool isDebug)
 {
     if (isDebug) {
-        mDebugDraw = new GLESDebugDraw(RATIO);
+        mDebugDraw = new GLESDebugDraw(PTM_RATIO);
         mWorld->SetDebugDraw(mDebugDraw);
         
         uint32 flags = 0;

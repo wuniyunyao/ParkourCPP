@@ -9,12 +9,14 @@
 #ifndef __Parkour__PlayScene__
 #define __Parkour__PlayScene__
 
-#define RATIO 32
-
 #include "cocos2d.h"
 #include "chipmunk.h"
 #include "Box2D\Box2D.h"
 #include "GLES-Render.h"
+
+#ifndef PTM_RATIO
+#define PTM_RATIO 32
+#endif
 
 USING_NS_CC;
 

@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "chipmunk.h"
-#include "Box2DTMXTool.h"
+//#include "Box2DTMXTool.h"
 
 USING_NS_CC;
 

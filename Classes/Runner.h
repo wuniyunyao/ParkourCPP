@@ -9,8 +9,6 @@
 #ifndef __PaoKu__Runner__
 #define __PaoKu__Runner__
 
-#define RATIO 32
-
 #include "cocos2d.h"
 #include "chipmunk.h"
 #include "cocos-ext.h"
