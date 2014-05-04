@@ -121,7 +121,25 @@ bool PlayLayer::init()
 	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
     this->spriteSheet = CCSpriteBatchNode::create("parkour.png");
     this->addChild(spriteSheet,1);
+	/*//////////////////////////////////////////////////////////////////
+	CCSprite* sprite;
+	CCArray *animFrames = CCArray::create();
+    for (int i = 0; i < 8; i++)
+    {
+        CCString *name = CCString::createWithFormat("coin%d.png",i);
+        CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name->getCString());
+        animFrames->addObject(frame);
+    }
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(animFrames, 0.1);
+    CCAction *action =CCRepeatForever::create(CCAnimate::create(animation));
 
+    sprite->initWithSpriteFrameName("coin0.png");
+
+    //body->SetUserData(this);
+    
+    sprite->runAction(action);
+    spriteSheet->addChild(sprite);
+	/////////////////////////////////////////////////////////////////////*/
 	this->mapManager = new MapManager(this->spriteSheet,this, this->mWorld);
 
 	this->runner = Runner::create(this->mWorld);
@@ -266,12 +284,12 @@ void PlayLayer::update(float dt)
 	////////////////////////////////////////
 	mWorld->Step(dt, 10, 8);
 	
-	if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
+	/*if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
        // this->objectManager->removeObjectOfMap(this->mapManager->getCurMap() - 1);
         //this->objectManager->initObjectOfMap(this->mapManager->getCurMap() + 1, this->mapManager->getMapWidth());
         //level up
        // this->runner->levelUp();
-    }
+    }*/
 	
 	lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
     CCCamera *camera = this->getCamera();

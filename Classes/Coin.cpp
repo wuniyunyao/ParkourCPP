@@ -34,6 +34,7 @@ Coin::Coin(CCSpriteBatchNode *spriteSheet, b2Body *body)
 
     // init physics
 	this->setB2Body(body);
+	this->setPTMRatio(PTM_RATIO);
     //float radius = 0.95 * this->getContentSize().width / 2;
     //this->pBody = cpBodyNewStatic();
     //cpBodySetPos(this->pBody, cpv(position.x, position.y));

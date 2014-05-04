@@ -263,9 +263,11 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
             float height = ((CCString*)dict->objectForKey("height"))->floatValue()/contentScaleFactor;
             
             b2CircleShape *ps = new b2CircleShape;
-            ps->m_p.Set((width/2) / PTM_RATIO, ((height/2)) / PTM_RATIO);
+            //ps->m_p.Set((width/2) / PTM_RATIO, ((height/2)) / PTM_RATIO);
+			ps->m_p.Set(0,0);
             ps->m_radius = width/2/PTM_RATIO;
             fixture_def.shape = ps;
+			mBody->SetTransform(b2Vec2((x+(width/2)) / PTM_RATIO,(y+((height/2))) / PTM_RATIO),mBody->GetAngle());
             
             shape = ps;
             
@@ -275,8 +277,9 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
             float height = ((CCString*)dict->objectForKey("height"))->floatValue()/contentScaleFactor;
             
             b2PolygonShape *ps = new b2PolygonShape;
-            ps->SetAsBox(width/2/PTM_RATIO, height/2/PTM_RATIO, b2Vec2((width/2)/PTM_RATIO, (height/2)/PTM_RATIO), 0);
+            ps->SetAsBox(width/2/PTM_RATIO, height/2/PTM_RATIO, b2Vec2(0,0), 0);
             fixture_def.shape = ps;
+			mBody->SetTransform(b2Vec2((x+(width/2)) / PTM_RATIO,(y+((height/2))) / PTM_RATIO),mBody->GetAngle());
             
             shape = ps;
             

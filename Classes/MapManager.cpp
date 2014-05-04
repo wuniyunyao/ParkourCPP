@@ -32,16 +32,16 @@ curMap(0)
 	this->mSpritesheet = spritesheet;
 
     this->map0 = Map::create(0);
-    parent->addChild(this->map0,0);
+    //parent->addChild(this->map0,0);
 	tool.readTiledMapForBlocks(mWorld,this->map0->map);
 	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map0->map);
 
     spriteWidth = this->map0->map->getContentSize().width;
 
     this->map1 = Map::create(1);
-    parent->addChild(this->map1,0);
+    //parent->addChild(this->map1,0);
 	tool.readTiledMapForBlocks(mWorld,this->map1->map,spriteWidth);
-	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map0->map,spriteWidth);
+	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map1->map,spriteWidth);
 }
 
 MapManager::~MapManager()
