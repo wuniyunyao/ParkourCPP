@@ -1,6 +1,12 @@
 #pragma once
 #include "Box2DTMXReader.h"
 #include "Coin.h"
+/*
+文件名：Box2DTiledMapManager.h
+描述：该工具用于将处理多张由Box2DTMXReader读出的地图，并管理其自动释放
+创建者：无逆云遥
+创建日期：2013/4/24
+*/
 using namespace extension;
 using namespace cocos2d;
 class Box2DTiledMapManager

@@ -1,5 +1,6 @@
 #include "Box2DTMXReader.h"
 #include "Coin.h"
+
 bool Box2DTMXReader::readTiledMap(b2World* world,CCTMXTiledMap *tiledmap,float xOffset,const char* layerName,b2BodyType type){
 	
 
@@ -176,8 +177,8 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
     CCARRAY_FOREACH(array, pObj)
     {
         dict = (CCDictionary*)pObj;
-        //if (!dict)
-        //    continue;
+        if (!dict)
+            continue;
         
         b2FixtureDef fixture_def;
         
@@ -304,9 +305,9 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
         
         // Storage the Static block object.
         mIdentifiedObjectList.push_back(sb_obj);
-		//break;
+		
     }
-    //autorelease();
+
     return true;
 }
 bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap,float xOffset){
@@ -319,7 +320,7 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
 void Box2DTMXReader::destory(){
 	mWorld->DestroyBody(mBody);
 }
-Box2DTMXReader::Box2DTMXReader():mBody(NULL),/*bodyListLength(2),*/curXOffset(0){
+Box2DTMXReader::Box2DTMXReader():mBody(NULL),curXOffset(0){
 }
 
 Box2DTMXReader::~Box2DTMXReader(){
@@ -330,7 +331,6 @@ Box2DTMXReader::~Box2DTMXReader(){
 		std::vector<IdentifiedObject*>::iterator it;
 		for(it = this->mIdentifiedObjectList.begin();it!=this->mIdentifiedObjectList.end();it++)
 		{
-			//mWorld->DestroyBody((*it)->body);
 			((Coin*)((*it)->body->GetUserData()))->removeFromParent();
 		}
 	}

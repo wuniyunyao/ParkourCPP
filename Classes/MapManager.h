@@ -21,7 +21,6 @@ class Map;
 class MapManager
 {
 private:
-    cpSpace *space;//current space;
 
     float spriteWidth;
     int curMap;// being displayed
@@ -33,7 +32,6 @@ private:
 	Box2DTiledMapManager tool;
 	CCSpriteBatchNode* mSpritesheet;
 public:
-    MapManager(CCLayer *parent, cpSpace *pSpace);
 	MapManager(CCSpriteBatchNode* spritesheet, CCLayer *parent, b2World *mWorld);
     ~MapManager();
 

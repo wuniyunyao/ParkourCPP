@@ -80,9 +80,6 @@
     <ClInclude Include="..\Classes\SimpleRecognizer.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\StaticBlockObject.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Box2DTMXReader.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -92,7 +89,10 @@
     <ClInclude Include="..\Classes\Coin.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Tags.h">
+    <ClInclude Include="..\Classes\Resources.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\IdentifiedObject.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

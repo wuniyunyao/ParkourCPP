@@ -15,7 +15,8 @@
 #include "ObjectManager.h"
 #include "SimpleAudioEngine.h"
 #include "SimpleRecognizer.h"
-#include "Tags.h"
+#include "Resources.h"
+
 
 #define NOTIFI_MEET_COIN "notification_meet_coin"
 #define NOTIFI_MEET_ROCK "notification_meet_rock"
@@ -73,23 +74,6 @@ PlayLayer::~PlayLayer()
 
 bool PlayLayer::init()
 {
-    
-	/*if (!CCLayer::init()) {
-        return false;
-    }
-    
-    setTouchEnabled(true);
-    setTouchMode(kCCTouchesOneByOne);
-    recognizer = new SimpleRecognizer();
-    
-    // initPhysics, must init first
-    this->space = cpSpaceNew();
-    this->space->gravity = cpv(0, -350);
-    wallBottom = cpSegmentShapeNew(this->space->staticBody,
-                                   cpv(0, MapManager::getGroundHeight()),// start point
-                                   cpv(4294967295, MapManager::getGroundHeight()),// MAX INT:4294967295
-                                   0);// thickness of wall
-    cpSpaceAddStaticShape(this->space, wallBottom);*/
 	//////////////////////////////////
 	//new code for Box2D added by wuniyunyao
 	if (!CCLayer::init()) {
@@ -114,34 +98,14 @@ bool PlayLayer::init()
 	b2FixtureDef fixDef;
     fixDef.shape = &shape;
 	fixDef.friction = 0;
-	//fixDef.restitution = -1;
-    ground->CreateFixture(&fixDef);
-	setDebug(false);
 
+    ground->CreateFixture(&fixDef);
 	
 
-	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
-    this->spriteSheet = CCSpriteBatchNode::create("parkour.png");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(SPRITESHEET);
+    this->spriteSheet = CCSpriteBatchNode::create(SPRITEPACKER);
     this->addChild(spriteSheet,1);
-	/*//////////////////////////////////////////////////////////////////
-	CCSprite* sprite;
-	CCArray *animFrames = CCArray::create();
-    for (int i = 0; i < 8; i++)
-    {
-        CCString *name = CCString::createWithFormat("coin%d.png",i);
-        CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name->getCString());
-        animFrames->addObject(frame);
-    }
-    CCAnimation *animation = CCAnimation::createWithSpriteFrames(animFrames, 0.1);
-    CCAction *action =CCRepeatForever::create(CCAnimate::create(animation));
-
-    sprite->initWithSpriteFrameName("coin0.png");
-
-    //body->SetUserData(this);
-    
-    sprite->runAction(action);
-    spriteSheet->addChild(sprite);
-	/////////////////////////////////////////////////////////////////////*/
+	
 	this->mapManager = new MapManager(this->spriteSheet,this, this->mWorld);
 
 	this->runner = Runner::create(this->mWorld);
@@ -152,27 +116,10 @@ bool PlayLayer::init()
 
 
 	 scheduleUpdate();
-
+	 setDebug(false);
 	/////////////////////////////////
 	/*
-    this->mapManager = new MapManager(this, this->space);
-    
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("parkour.plist");
-    this->spriteSheet = CCSpriteBatchNode::create("parkour.png");
-    this->addChild(spriteSheet);
-    
-    this->runner = Runner::create(this->space);
-    this->spriteSheet->addChild(this->runner);
-    
-    this->objectManager = new ObjectManager(this->spriteSheet, this->space);
-    this->objectManager->initObjectOfMap(1, this->mapManager->getMapWidth());
-
     // must after objectManager inited
-    cpSpaceAddCollisionHandler(this->space, SpriteTagrunner, SpriteTagcoin, collisionBegin, NULL
-                               , NULL, NULL, this->objectManager);
-    cpSpaceAddCollisionHandler(this->space, SpriteTagrunner, SpriteTagrock, collisionBegin, NULL
-                               , NULL, NULL, this->objectManager);
-    
     // make updater() to be called
     scheduleUpdate();
     
@@ -181,12 +128,6 @@ bool PlayLayer::init()
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(PlayLayer::notifiRock),
                                                                   NOTIFI_MEET_ROCK, NULL);
     
-#if 0
-    //CCPhysicsDebugNode是为了更方便debug的类，将它设置为显示之后，在场景内定义的精灵的碰撞形状块就显示出来了
-    cocos2d::extension::CCPhysicsDebugNode* debugLayer = cocos2d::extension::CCPhysicsDebugNode::create(this->space);
-    addChild(debugLayer, 100);
-    debugLayer->setVisible(true);
-#endif
 	*/
     return true;
 }
@@ -262,44 +203,14 @@ void PlayLayer::notifiRock(CCObject *unuse)
 
 void PlayLayer::update(float dt)
 {
-    /*// chipmunk step
-    cpSpaceStep(this->space, dt);
-    
-    // check and reload map
-    if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
-        this->objectManager->removeObjectOfMap(this->mapManager->getCurMap() - 1);
-        this->objectManager->initObjectOfMap(this->mapManager->getCurMap() + 1, this->mapManager->getMapWidth());
-        //level up
-        this->runner->levelUp();
-    }
-    
-    this->runner->step(dt);
-    // move Camera
-    lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
-    CCCamera *camera = this->getCamera();
-    float eyeZ = camera->getZEye();
-    camera->setEyeXYZ(lastEyeX, 0, eyeZ);
-    camera->setCenterXYZ(lastEyeX, 0, 0);
-    
+    /*
     StatusLayer *statusLayer = (StatusLayer *)getParent()->getChildByTag(TAG_STATUSLAYER);
     statusLayer->updateMeter(lastEyeX);*/
 	////////////////////////////////////////
 	mWorld->Step(dt, 10, 8);
-	if(!mRemoveObjs.empty())
-	{
-		std::vector<CCPhysicsSprite*>::iterator it;
-		for(it=mRemoveObjs.begin();it!=mRemoveObjs.end();it++)
-		{
-			(*it)->setVisible(false);
-			//(*it)->setUserData(NULL);
-		}
-		mRemoveObjs.clear();
-	}
+	this->pickCoins();
 	if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
-       // this->objectManager->removeObjectOfMap(this->mapManager->getCurMap() - 1);
-        //this->objectManager->initObjectOfMap(this->mapManager->getCurMap() + 1, this->mapManager->getMapWidth());
-        //level up
-       // this->runner->levelUp();
+      
     }
 	
 	lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
@@ -361,8 +272,7 @@ void PlayLayer::BeginContact(b2Contact* contact)
         if (COINTAG == obj->getTag()) {
            //((Status*)(this->getParent()->getChildByTag(STATUSTAG)))->addCoin(1);
 			mRemoveObjs.push_back(obj);
-			//this->setTag(TOREMOVE);
-            //SimpleAudioEngine::sharedEngine()->playEffect(pickUpCoins);
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(PICKUPCOINS);
         }else if(ROCKTAG == obj->getTag())
         {
            /* mRunner->die();
@@ -373,4 +283,17 @@ void PlayLayer::BeginContact(b2Contact* contact)
         }
         
     }
+}
+
+void PlayLayer::pickCoins()
+{
+    if(!mRemoveObjs.empty())
+	{
+		std::vector<CCPhysicsSprite*>::iterator it;
+		for(it=mRemoveObjs.begin();it!=mRemoveObjs.end();it++)
+		{
+			(*it)->setVisible(false);
+		}
+		mRemoveObjs.clear();
+	}
 }

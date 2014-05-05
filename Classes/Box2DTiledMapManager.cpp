@@ -24,7 +24,6 @@ bool Box2DTiledMapManager::autorelease(){
 
 bool Box2DTiledMapManager::readTiledMapForBlocks(b2World* world,CCTMXTiledMap *tiledmap,float xOffset){
 	Box2DTMXReader* newReader = new Box2DTMXReader();
-	//bool tag = newReader->readTiledMap(world,tiledmap,xOffset);
 	bool tag = newReader->readTiledMap(world,tiledmap,xOffset);
 	blockReaderList.push_back(newReader);
 	autorelease();
@@ -32,7 +31,6 @@ bool Box2DTiledMapManager::readTiledMapForBlocks(b2World* world,CCTMXTiledMap *t
 }
 bool Box2DTiledMapManager::readTiledMapForBlocks(b2World* world,CCTMXTiledMap *tiledmap){
 	Box2DTMXReader* newReader = new Box2DTMXReader();
-	//bool tag = newReader->readTiledMap(world,tiledmap);
 	bool tag = newReader->readTiledMap(world,tiledmap);
 	blockReaderList.push_back(newReader);
 	autorelease();

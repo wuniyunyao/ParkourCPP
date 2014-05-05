@@ -8,7 +8,7 @@
 
 #include "Coin.h"
 #include "Constant.h"
-#include "Tags.h"
+#include "Resources.h"
 Coin *Coin::create(CCSpriteBatchNode *spriteSheet, b2Body *body)
 {
     Coin *coin = new Coin(spriteSheet,body);

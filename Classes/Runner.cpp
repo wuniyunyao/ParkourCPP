@@ -13,38 +13,11 @@
 
 #define RUNING_MODE "running"
 
-Runner *Runner::create(cpSpace *space)
-{
-    Runner *runner = new Runner(space);
-    runner->autorelease();
-    return runner;
-}
 Runner *Runner::create(b2World* mWorld)
 {
     Runner *runner = new Runner(mWorld);
     runner->autorelease();
     return runner;
-}
-
-Runner::Runner(cpSpace *space) : m_offsetPx(100.0)
-{
-   /* this->space = space;
-    this->shape = NULL;
-    
-    this->initWithSpriteFrameName("runner0.png");
-    this->runningSize = this->getContentSize();
-    
-    // init crouchSize
-    cocos2d::extension::CCPhysicsSprite *tmpSprite = cocos2d::extension::CCPhysicsSprite::createWithSpriteFrameName("runnerCrouch0.png");
-    this->crouchSize = tmpSprite->getContentSize();
-    
-    initAction();
-    initBody();
-    initShape(RUNING_MODE);// start with running shape
-    this->setCPBody(this->body);
-    
-    m_stat = RunnerStatRunning;
-    this->runAction(this->runningAction);*/
 }
 
 Runner::Runner(b2World* mWorld) : m_offsetPx(100.0)
@@ -101,7 +74,7 @@ void Runner::initAction()
         animFrames->addObject(frame);
     }
 
-    animation = CCAnimation::createWithSpriteFrames(animFrames, 0.2);
+    animation = CCAnimation::createWithSpriteFrames(animFrames, 0.1);
     this->jumpUpAction = CCAnimate::create(animation);
     this->jumpUpAction->retain();
 
@@ -112,7 +85,7 @@ void Runner::initAction()
         CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name->getCString());
         animFrames->addObject(frame);
     }
-    animation = CCAnimation::createWithSpriteFrames(animFrames, 0.3);
+    animation = CCAnimation::createWithSpriteFrames(animFrames, 0.2);
     this->jumpDownAction = CCAnimate::create(animation);
     this->jumpDownAction->retain();
 
@@ -130,11 +103,6 @@ void Runner::initAction()
 
 void Runner::initBody()
 {
-    /*// create chipmunk body
-    this->body = cpBodyNew(1, cpMomentForBox(1,this->runningSize.width, this->runningSize.height));
-    this->body->p = cpv(m_offsetPx, MapManager::getGroundHeight() + this->runningSize.height / 2);
-    this->body->v = cpv(150, 0);//run speed
-    cpSpaceAddBody(this->space, this->body);*/
 	/////////////////////////
 	//new code for Box2D by wuniyunyao
 	b2BodyDef bodyDef;
@@ -159,18 +127,6 @@ void Runner::levelUp()
 
 void Runner::initShape(const char* type)
 {
-    /*if (this->shape) {
-        cpSpaceRemoveShape(this->space, this->shape);
-    }
-    
-    if (0 == strcmp(type, RUNING_MODE)) {
-        this->shape = cpBoxShapeNew(this->body, this->runningSize.width-14, this->runningSize.height);
-    } else {
-        // crouch
-        this->shape = cpBoxShapeNew(this->body, this->crouchSize.width, this->crouchSize.height);
-    }
-    cpSpaceAddShape(this->space, this->shape);
-    cpShapeSetCollisionType(this->shape, SpriteTagrunner);*/
 	////////////////////////////////////////
 	//b2PolygonShape shape;
 	// 如果物体已经有一个形状则删掉
@@ -206,17 +162,8 @@ void Runner::initShape(const char* type)
 
 void Runner::jump()
 {
-    /*if (m_stat == RunnerStatRunning) {
-        m_stat = RunnerStatJumpUp;
-        cpBodyApplyImpulse(this->body, cpv(0, 250), cpv(0, 0));
-        this->stopAllActions();
-        this->runAction(this->jumpUpAction);
-        
-        CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
-        audioEngine->playEffect("jump.mp3");
-    }*/
 	 if (m_stat == RunnerStatRunning/*||RunnerStatCrouch*/) {
-        float impulse = mBody->GetMass() * 10;
+        float impulse = mBody->GetMass() * 8;
         // 根据物体质量，施加一个向上的力，人物就会跳起
         mBody->ApplyLinearImpulse(b2Vec2(0, impulse), mBody->GetWorldCenter());
         m_stat = RunnerStatJumpUp;
@@ -225,7 +172,7 @@ void Runner::jump()
         this->runAction(this->jumpUpAction);
 		
 		CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
-        audioEngine->playEffect("jump.mp3");
+        audioEngine->playEffect(JUMPMUSIC);
     }
 }
 
@@ -237,7 +184,7 @@ void Runner::crouch()
     this->runAction(this->crouchAction);
     scheduleOnce(schedule_selector(Runner::loadNormal), 1.5);
     CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
-    audioEngine->playEffect("crouch.mp3");
+    audioEngine->playEffect(CROUCHMUSIC);
 }
 
 void Runner::loadNormal(float dt)
@@ -250,23 +197,6 @@ void Runner::loadNormal(float dt)
 
 void Runner::step(float dt)
 {
-    /*cpVect vel = cpBodyGetVel(this->body);
-    if (m_stat == RunnerStatJumpUp) {
-        if (vel.y < 0.1) {
-            m_stat = RunnerStatJumpDown;
-            this->stopAllActions();
-            this->runAction(this->jumpDownAction);
-        }
-        return;
-    }
-    if (m_stat == RunnerStatJumpDown) {
-        if (vel.y == 0) {
-            m_stat = RunnerStatRunning;
-            this->stopAllActions();
-            this->runAction(this->runningAction);
-        }
-        return;
-    }*/
 	 b2Vec2 vel = mBody->GetLinearVelocity();
     if (m_stat == RunnerStatJumpUp) {
         if (vel.y < 0.1) {
@@ -283,7 +213,6 @@ void Runner::step(float dt)
             this->runAction(this->runningAction);
         }
     }
-	//if(mBody->GetLinearVelocity().x<5)
-		mBody->SetLinearVelocity(b2Vec2(5,vel.y));
+	mBody->SetLinearVelocity(b2Vec2(5,vel.y));
     
 }

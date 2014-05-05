@@ -52,8 +52,6 @@ public:
 
 private:
 	b2World* mWorld;
-    cpSpace *space;
-    cpShape *wallBottom;
     CCSpriteBatchNode *spriteSheet;
     Runner *runner;
     MapManager *mapManager;
@@ -76,5 +74,6 @@ private:
     void setDebug(bool isDebug);
 	virtual void BeginContact(b2Contact* contact);
 	std::vector<extension::CCPhysicsSprite*> mRemoveObjs;
+	void pickCoins();
 };
 #endif /* defined(__Parkour__PlayScene__) */

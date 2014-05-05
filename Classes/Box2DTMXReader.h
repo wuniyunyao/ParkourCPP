@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "Box2D\Box2D.h"
-#include "StaticBlockObject.h"
+#include "IdentifiedObject.h"
 //#include "Coin.h"
 #ifndef PTM_RATIO
 #define PTM_RATIO 32
@@ -12,7 +12,7 @@
 using namespace cocos2d;
 /*
 文件名：Box2DTMLTool.h
-描述：该工具用于将tiled map中的地形读出供Box2D使用
+描述：该工具用于将单张tiled map中的地形读出供Box2D使用
 创建者：无逆云遥
 创建日期：2013/4/24
 */
@@ -29,9 +29,6 @@ public:
 
 	void destory();
 	std::vector<IdentifiedObject*> mIdentifiedObjectList;
-	/*b2Body* getBody(){
-		return mBody;
-	};*/
 private:
 	enum flag{
 		single,

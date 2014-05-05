@@ -13,6 +13,7 @@
 #include "chipmunk.h"
 #include "cocos-ext.h"
 #include "Box2D\Box2D.h"
+#include "Resources.h"
 USING_NS_CC;
 
 enum RunnerStat
@@ -49,8 +50,6 @@ private:
 	b2PolygonShape shape;
 	//CCSize mCrouchSize;
 public:
-    static Runner *create(cpSpace *space);
-    Runner(cpSpace *space);
     ~Runner();
 
     float getoffsetPx() {return m_offsetPx;}
@@ -66,7 +65,7 @@ public:
 
 	static const CCSize *getCrouchContentSize()
 	{
-        CCPhysicsSprite *sprite = CCPhysicsSprite::createWithSpriteFrameName("runnerCrouch0.png");
+        CCPhysicsSprite *sprite = CCPhysicsSprite::createWithSpriteFrameName(RUNNERCROUCH);
         return &sprite->getContentSize();
 	}
 	//////////////////////////////

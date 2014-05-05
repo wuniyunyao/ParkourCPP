@@ -10,20 +10,7 @@
 #include "Map.h"
 #include "Constant.h"
 
-MapManager::MapManager(CCLayer *parent, cpSpace *pSpace):
-spriteWidth(0),
-curMap(0)
-{/*
-    this->space = pSpace;
 
-    this->map0 = Map::create(0);
-    parent->addChild(this->map0);
-
-    spriteWidth = this->map0->getContentSize().width;
-
-    this->map1 = Map::create(1);
-    parent->addChild(this->map1);*/
-}
 MapManager::MapManager(CCSpriteBatchNode* spritesheet,CCLayer *parent, b2World* mWorld):
 spriteWidth(0),
 curMap(0)

@@ -9,7 +9,7 @@
 #include "MainScene.h"
 #include "PlayScene.h"
 #include "SimpleAudioEngine.h"
-
+#include "Resources.h"
 USING_NS_CC;
 
 CCScene* MainLayer::scene()
@@ -54,9 +54,9 @@ bool MainLayer::init()
     
     // preload music
     CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
-    audioEngine->preloadBackgroundMusic("background.mp3");
-    audioEngine->preloadEffect("jump.mp3");
-    audioEngine->preloadEffect("crouch.mp3");
+    audioEngine->preloadBackgroundMusic(BACKMUSIC);
+    audioEngine->preloadEffect(JUMPMUSIC);
+    audioEngine->preloadEffect(CROUCHMUSIC);
     audioEngine->setBackgroundMusicVolume(0.3);
     audioEngine->setEffectsVolume(0.3);
     
@@ -66,7 +66,7 @@ bool MainLayer::init()
 void MainLayer::onPlay(CCObject* pSender)
 {
     CocosDenshion::SimpleAudioEngine *audioEngine = CocosDenshion::SimpleAudioEngine::sharedEngine();
-    audioEngine->playBackgroundMusic("background.mp3",true);
+    audioEngine->playBackgroundMusic(BACKMUSIC,true);
 
     CCDirector::sharedDirector()->replaceScene(PlayLayer::scene());
 }
