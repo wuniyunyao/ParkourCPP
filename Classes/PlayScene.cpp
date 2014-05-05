@@ -290,7 +290,7 @@ void PlayLayer::update(float dt)
 		std::vector<CCPhysicsSprite*>::iterator it;
 		for(it=mRemoveObjs.begin();it!=mRemoveObjs.end();it++)
 		{
-			(*it)->removeFromParent();
+			(*it)->setVisible(false);
 			//(*it)->setUserData(NULL);
 		}
 		mRemoveObjs.clear();

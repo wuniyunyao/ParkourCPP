@@ -291,6 +291,7 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
         fixture_def.density = sb_obj->density;
         fixture_def.friction = sb_obj->friction;
         fixture_def.restitution = sb_obj->restitution;
+		fixture_def.isSensor = true;
 
         b2Fixture *fixture = mBody->CreateFixture(&fixture_def);
         sb_obj->fixture = fixture;
@@ -326,11 +327,11 @@ Box2DTMXReader::~Box2DTMXReader(){
 		mWorld->DestroyBody(mBody);
 	else
 	{	
-		/*std::vector<IdentifiedObject*>::iterator it;
+		std::vector<IdentifiedObject*>::iterator it;
 		for(it = this->mIdentifiedObjectList.begin();it!=this->mIdentifiedObjectList.end();it++)
 		{
 			//mWorld->DestroyBody((*it)->body);
 			((Coin*)((*it)->body->GetUserData()))->removeFromParent();
-		}*/
+		}
 	}
 }
