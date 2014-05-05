@@ -58,9 +58,9 @@ CCScene* PlayLayer::scene()
     playLayer->setTag(TAG_PLAYER);
     scene->addChild(playLayer);
     
-    //StatusLayer *statusLayer = StatusLayer::create();
-    //statusLayer->setTag(TAG_STATUSLAYER);
-    //scene->addChild(statusLayer);
+    StatusLayer *statusLayer = StatusLayer::create();
+    statusLayer->setTag(TAG_STATUSLAYER);
+    scene->addChild(statusLayer);
     return scene;
 }
 
@@ -203,9 +203,9 @@ void PlayLayer::notifiRock(CCObject *unuse)
 
 void PlayLayer::update(float dt)
 {
-    /*
+ 
     StatusLayer *statusLayer = (StatusLayer *)getParent()->getChildByTag(TAG_STATUSLAYER);
-    statusLayer->updateMeter(lastEyeX);*/
+    statusLayer->updateMeter(lastEyeX);
 	////////////////////////////////////////
 	mWorld->Step(dt, 10, 8);
 	this->pickCoins();
@@ -270,7 +270,7 @@ void PlayLayer::BeginContact(b2Contact* contact)
         }
         
         if (COINTAG == obj->getTag()) {
-           //((Status*)(this->getParent()->getChildByTag(STATUSTAG)))->addCoin(1);
+           ((StatusLayer*)(this->getParent()->getChildByTag(TAG_STATUSLAYER)))->addCoin(1);
 			mRemoveObjs.push_back(obj);
             CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(PICKUPCOINS);
         }else if(ROCKTAG == obj->getTag())
