@@ -1,6 +1,6 @@
 #pragma once
 #include "Box2DTMXReader.h"
-//#include "Coin.h"
+#include "Coin.h"
 using namespace extension;
 using namespace cocos2d;
 class Box2DTiledMapManager
