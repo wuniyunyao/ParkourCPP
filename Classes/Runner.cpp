@@ -145,7 +145,7 @@ void Runner::initBody()
     bodyDef.position = b2Vec2(m_offsetPx /  PTM_RATIO, (MapManager::getGroundHeight() + this->runningSize.height / 2 )/  PTM_RATIO);
 	bodyDef.angle = 0; //set the starting angle
 	mBody = mWorld->CreateBody(&bodyDef);
-    
+    mBody->SetUserData(this);
     // 关联起来
     this->setB2Body(mBody);
 	this->setPTMRatio(PTM_RATIO);

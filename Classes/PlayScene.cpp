@@ -15,6 +15,7 @@
 #include "ObjectManager.h"
 #include "SimpleAudioEngine.h"
 #include "SimpleRecognizer.h"
+#include "Tags.h"
 
 #define NOTIFI_MEET_COIN "notification_meet_coin"
 #define NOTIFI_MEET_ROCK "notification_meet_rock"
@@ -101,6 +102,7 @@ bool PlayLayer::init()
 	this->mWorld = new b2World(b2Vec2(0,-10));
 	this->mWorld->SetAllowSleeping(true);
     this->mWorld->SetContinuousPhysics(true);
+	this->mWorld->SetContactListener(this);
 
 	b2Body* ground = NULL;
     b2BodyDef bd;
@@ -114,7 +116,7 @@ bool PlayLayer::init()
 	fixDef.friction = 0;
 	//fixDef.restitution = -1;
     ground->CreateFixture(&fixDef);
-	setDebug(true);
+	setDebug(false);
 
 	
 
@@ -283,13 +285,22 @@ void PlayLayer::update(float dt)
     statusLayer->updateMeter(lastEyeX);*/
 	////////////////////////////////////////
 	mWorld->Step(dt, 10, 8);
-	
-	/*if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
+	if(!mRemoveObjs.empty())
+	{
+		std::vector<CCPhysicsSprite*>::iterator it;
+		for(it=mRemoveObjs.begin();it!=mRemoveObjs.end();it++)
+		{
+			(*it)->removeFromParent();
+			//(*it)->setUserData(NULL);
+		}
+		mRemoveObjs.clear();
+	}
+	if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
        // this->objectManager->removeObjectOfMap(this->mapManager->getCurMap() - 1);
         //this->objectManager->initObjectOfMap(this->mapManager->getCurMap() + 1, this->mapManager->getMapWidth());
         //level up
        // this->runner->levelUp();
-    }*/
+    }
 	
 	lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
     CCCamera *camera = this->getCamera();
@@ -326,4 +337,40 @@ void PlayLayer::draw()
     mWorld->DrawDebugData();
     
     kmGLPopMatrix();
+}
+
+void PlayLayer::BeginContact(b2Contact* contact)
+{
+	//    CCLog("begin contact!");
+    
+    void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+    void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+    
+    if (bodyUserDataA && bodyUserDataB)
+    {
+        CCPhysicsSprite* contactA = static_cast<CCPhysicsSprite*>(bodyUserDataA);
+        CCPhysicsSprite* obj = NULL;
+        if (contactA == this->runner)
+        {
+            obj = static_cast<CCPhysicsSprite*>(bodyUserDataB);
+        }else
+        {
+            obj = static_cast<CCPhysicsSprite*>(bodyUserDataA);
+        }
+        
+        if (COINTAG == obj->getTag()) {
+           //((Status*)(this->getParent()->getChildByTag(STATUSTAG)))->addCoin(1);
+			mRemoveObjs.push_back(obj);
+			//this->setTag(TOREMOVE);
+            //SimpleAudioEngine::sharedEngine()->playEffect(pickUpCoins);
+        }else if(ROCKTAG == obj->getTag())
+        {
+           /* mRunner->die();
+            unscheduleUpdate();
+            mState = GameOverState;
+            GameOver* over = GameOver::create();
+            this->getParent()->addChild(over);*/
+        }
+        
+    }
 }

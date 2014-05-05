@@ -1,4 +1,5 @@
 #include "Box2DTMXReader.h"
+#include "Coin.h"
 bool Box2DTMXReader::readTiledMap(b2World* world,CCTMXTiledMap *tiledmap,float xOffset,const char* layerName,b2BodyType type){
 	
 
@@ -325,10 +326,11 @@ Box2DTMXReader::~Box2DTMXReader(){
 		mWorld->DestroyBody(mBody);
 	else
 	{	
-		std::vector<IdentifiedObject*>::iterator it;
+		/*std::vector<IdentifiedObject*>::iterator it;
 		for(it = this->mIdentifiedObjectList.begin();it!=this->mIdentifiedObjectList.end();it++)
 		{
-			mWorld->DestroyBody((*it)->body);
-		}
+			//mWorld->DestroyBody((*it)->body);
+			((Coin*)((*it)->body->GetUserData()))->removeFromParent();
+		}*/
 	}
 }

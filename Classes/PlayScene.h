@@ -10,6 +10,7 @@
 #define __Parkour__PlayScene__
 
 #include "cocos2d.h"
+#include "cocos-ext.h"
 #include "chipmunk.h"
 #include "Box2D\Box2D.h"
 #include "GLES-Render.h"
@@ -18,7 +19,10 @@
 #define PTM_RATIO 32
 #endif
 
+
 USING_NS_CC;
+USING_NS_CC_EXT;
+
 
 class Runner;
 class MapManager;
@@ -31,7 +35,7 @@ enum {
     TAG_PLAYER,
 };
 
-class PlayLayer : public CCLayer
+class PlayLayer : public CCLayer ,public b2ContactListener
 {
 public:
     CREATE_FUNC(PlayLayer);
@@ -45,6 +49,7 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
     static CCScene* scene();
+
 private:
 	b2World* mWorld;
     cpSpace *space;
@@ -69,5 +74,7 @@ private:
     void draw();
     // 开启物理世界debug
     void setDebug(bool isDebug);
+	virtual void BeginContact(b2Contact* contact);
+	std::vector<extension::CCPhysicsSprite*> mRemoveObjs;
 };
 #endif /* defined(__Parkour__PlayScene__) */

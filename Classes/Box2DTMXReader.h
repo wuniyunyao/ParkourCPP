@@ -5,7 +5,7 @@
 #include "cocos-ext.h"
 #include "Box2D\Box2D.h"
 #include "StaticBlockObject.h"
-
+//#include "Coin.h"
 #ifndef PTM_RATIO
 #define PTM_RATIO 32
 #endif

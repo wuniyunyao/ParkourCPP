@@ -8,7 +8,7 @@
 
 #include "Coin.h"
 #include "Constant.h"
-
+#include "Tags.h"
 Coin *Coin::create(CCSpriteBatchNode *spriteSheet, b2Body *body)
 {
     Coin *coin = new Coin(spriteSheet,body);
@@ -47,7 +47,7 @@ Coin::Coin(CCSpriteBatchNode *spriteSheet, b2Body *body)
 
     // for collision
     body->SetUserData(this);
-    
+    this->setTag(COINTAG);
     this->runAction(action);
     spriteSheet->addChild(this);
 }
