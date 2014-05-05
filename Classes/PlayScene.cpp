@@ -114,7 +114,7 @@ bool PlayLayer::init()
 	fixDef.friction = 0;
 	//fixDef.restitution = -1;
     ground->CreateFixture(&fixDef);
-	setDebug(true);
+	setDebug(false);
 
 	
 
@@ -284,12 +284,12 @@ void PlayLayer::update(float dt)
 	////////////////////////////////////////
 	mWorld->Step(dt, 10, 8);
 	
-	/*if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
+	if (true == this->mapManager->checkAndReload(this->lastEyeX)) {
        // this->objectManager->removeObjectOfMap(this->mapManager->getCurMap() - 1);
         //this->objectManager->initObjectOfMap(this->mapManager->getCurMap() + 1, this->mapManager->getMapWidth());
         //level up
        // this->runner->levelUp();
-    }*/
+    }
 	
 	lastEyeX = this->runner->getPositionX() - this->runner->getoffsetPx();
     CCCamera *camera = this->getCamera();

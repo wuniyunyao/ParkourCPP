@@ -308,10 +308,10 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
     return true;
 }
 bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap,float xOffset){
-	return readTiledMapForMultipleBodys(world,tiledmap,xOffset,"Physics",b2_staticBody);
+	return readTiledMapForMultipleBodys(world,tiledmap,xOffset,"CoinObjects",b2_kinematicBody);
 }
 bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap){
-	return readTiledMapForMultipleBodys(world,tiledmap,0,"Physics",b2_staticBody);
+	return readTiledMapForMultipleBodys(world,tiledmap,0,"CoinObjects",b2_kinematicBody);
 }
 
 void Box2DTMXReader::destory(){

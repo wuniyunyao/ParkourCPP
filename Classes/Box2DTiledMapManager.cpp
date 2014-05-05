@@ -11,14 +11,14 @@ Box2DTiledMapManager::~Box2DTiledMapManager(void)
 }
 
 bool Box2DTiledMapManager::autorelease(){
-	if(blockReaderList.size() > blockReaderListLength){
+	/*if(blockReaderList.size() > blockReaderListLength){
 		delete(blockReaderList.front());
 		blockReaderList.pop_front();
 	}
 	if(coinReaderList.size() > coinReaderListLength){
 		delete(coinReaderList.front());
 		coinReaderList.pop_front();
-	}
+	}*/
 	return true;
 }
 
