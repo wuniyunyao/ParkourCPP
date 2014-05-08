@@ -136,6 +136,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Map.cpp" />
     <ClCompile Include="..\Classes\MapManager.cpp" />
     <ClCompile Include="..\Classes\PlayScene.cpp" />
+    <ClCompile Include="..\Classes\Monster.cpp" />
     <ClCompile Include="..\Classes\Runner.cpp" />
     <ClCompile Include="..\Classes\SimpleRecognizer.cpp" />
     <ClCompile Include="..\Classes\StatusLayer.cpp" />
@@ -147,15 +148,16 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Box2DTiledMapManager.h" />
     <ClInclude Include="..\Classes\Box2DTMXReader.h" />
     <ClInclude Include="..\Classes\Coin.h" />
+    <ClInclude Include="..\Classes\Constant.h" />
     <ClInclude Include="..\Classes\GLES-Render.h" />
     <ClInclude Include="..\Classes\MainScene.h" />
     <ClInclude Include="..\Classes\Map.h" />
     <ClInclude Include="..\Classes\MapManager.h" />
     <ClInclude Include="..\Classes\PlayScene.h" />
+    <ClInclude Include="..\Classes\Monster.h" />
     <ClInclude Include="..\Classes\Runner.h" />
     <ClInclude Include="..\Classes\SimpleRecognizer.h" />
     <ClInclude Include="..\Classes\IdentifiedObject.h" />
-    <ClInclude Include="..\Classes\Resources.h" />
     <ClInclude Include="..\Classes\StatusLayer.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

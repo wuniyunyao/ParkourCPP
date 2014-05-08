@@ -26,7 +26,7 @@ public:
 	bool readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap,float xOffset);
 	bool readTiledMap(b2World* world,CCTMXTiledMap *tiledmap);
 	bool readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *tiledmap);
-
+	void isSensor(boolean b);
 	void destory();
 	std::vector<IdentifiedObject*> mIdentifiedObjectList;
 private:
@@ -34,6 +34,7 @@ private:
 		single,
 		multiple
 	};
+	boolean sensorflag;
 	flag mode;
 	CCTMXTiledMap* mTiledMap;
 	b2Body* mBody;	

@@ -30,6 +30,7 @@ bool Box2DTMXReader::readTiledMap(b2World* world,CCTMXTiledMap *tiledmap,float x
         b2FixtureDef fixture_def;
         
         IdentifiedObject *sb_obj = new IdentifiedObject();
+		sb_obj->isSensor = sensorflag;
         
         //sb_obj->density = 1.0f;
         //sb_obj->friction = 0;
@@ -134,6 +135,7 @@ bool Box2DTMXReader::readTiledMap(b2World* world,CCTMXTiledMap *tiledmap,float x
         fixture_def.density = sb_obj->density;
         fixture_def.friction = sb_obj->friction;
         fixture_def.restitution = sb_obj->restitution;
+		fixture_def.isSensor = sb_obj->isSensor;
 
         b2Fixture *fixture = mBody->CreateFixture(&fixture_def);
         sb_obj->fixture = fixture;
@@ -183,6 +185,7 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
         b2FixtureDef fixture_def;
         
         IdentifiedObject *sb_obj = new IdentifiedObject();
+		sb_obj->isSensor = sensorflag;
         
         
         // 读取所有形状的起始点
@@ -292,7 +295,7 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
         fixture_def.density = sb_obj->density;
         fixture_def.friction = sb_obj->friction;
         fixture_def.restitution = sb_obj->restitution;
-		fixture_def.isSensor = true;
+		fixture_def.isSensor = sb_obj->isSensor;
 
         b2Fixture *fixture = mBody->CreateFixture(&fixture_def);
         sb_obj->fixture = fixture;
@@ -320,7 +323,7 @@ bool Box2DTMXReader::readTiledMapForMultipleBodys(b2World* world,CCTMXTiledMap *
 void Box2DTMXReader::destory(){
 	mWorld->DestroyBody(mBody);
 }
-Box2DTMXReader::Box2DTMXReader():mBody(NULL),curXOffset(0){
+Box2DTMXReader::Box2DTMXReader():mBody(NULL),curXOffset(0),sensorflag(false){
 }
 
 Box2DTMXReader::~Box2DTMXReader(){
@@ -334,4 +337,8 @@ Box2DTMXReader::~Box2DTMXReader(){
 			((Coin*)((*it)->body->GetUserData()))->removeFromParent();
 		}
 	}
+}
+
+void Box2DTMXReader::isSensor(boolean b){
+	this->sensorflag=b;
 }

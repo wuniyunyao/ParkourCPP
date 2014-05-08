@@ -213,6 +213,8 @@ void Runner::step(float dt)
             this->runAction(this->runningAction);
         }
     }
+	//float x = mBody->GetLinearVelocity().x;
+	//if(x < 5)
 	mBody->SetLinearVelocity(b2Vec2(5,vel.y));
     
 }

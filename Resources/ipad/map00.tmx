@@ -40,5 +40,7 @@
    <ellipse/>
   </object>
  </objectgroup>
- <objectgroup name="TrapObjects" width="96" height="24"/>
+ <objectgroup name="MonsterObjects" width="96" height="24">
+  <object x="1984" y="256" width="64" height="64"/>
+ </objectgroup>
 </map>

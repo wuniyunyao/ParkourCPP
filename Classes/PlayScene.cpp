@@ -15,36 +15,11 @@
 #include "ObjectManager.h"
 #include "SimpleAudioEngine.h"
 #include "SimpleRecognizer.h"
-#include "Resources.h"
 
 
 #define NOTIFI_MEET_COIN "notification_meet_coin"
 #define NOTIFI_MEET_ROCK "notification_meet_rock"
 
-// c function for chipmunk
-static void postStepRemove(cpSpace *space, cpShape *shape, void *param)
-{
-    /*ObjectManager *objectManager = (ObjectManager *)param;
-    switch (shape->collision_type) {
-        case SpriteTagcoin:
-            CCNotificationCenter::sharedNotificationCenter()->postNotification(NOTIFI_MEET_COIN);
-            objectManager->remove((CCSprite *)shape->data);
-            break;
-        case SpriteTagrock:
-            CCNotificationCenter::sharedNotificationCenter()->postNotification(NOTIFI_MEET_ROCK);
-            break;
-        default:
-            break;
-    }*/
-}
-
-static int collisionBegin(cpArbiter *arb, cpSpace *space, void *param)
-{
-    /*// we get shapes here, so postStepRemove's second param is cpShape
-    CP_ARBITER_GET_SHAPES(arb, a, b);
-    cpSpaceAddPostStepCallback(space, (cpPostStepFunc)postStepRemove, b, param);
-    return 0;*/
-}
 
 PlayLayer::PlayLayer():
 lastEyeX(0)
@@ -66,10 +41,7 @@ CCScene* PlayLayer::scene()
 
 PlayLayer::~PlayLayer()
 {
-    /*delete this->mapManager;
-    delete this->objectManager;
-    cpShapeFree(this->wallBottom);
-    cpSpaceFree(this->space);*/
+    delete this->mapManager;
 }
 
 bool PlayLayer::init()
@@ -98,6 +70,7 @@ bool PlayLayer::init()
 	b2FixtureDef fixDef;
     fixDef.shape = &shape;
 	fixDef.friction = 0;
+	fixDef.restitution = 0;
 
     ground->CreateFixture(&fixDef);
 	
@@ -111,24 +84,11 @@ bool PlayLayer::init()
 	this->runner = Runner::create(this->mWorld);
     this->spriteSheet->addChild(this->runner);
 
-	//this->objectManager = new ObjectManager(this->spriteSheet, this->mWorld);
-    //this->objectManager->initObjectOfMap(1, this->mapManager->getMapWidth());
 
 
 	 scheduleUpdate();
-	 setDebug(false);
-	/////////////////////////////////
-	/*
-    // must after objectManager inited
-    // make updater() to be called
-    scheduleUpdate();
-    
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(PlayLayer::notifiCoin),
-                                                                  NOTIFI_MEET_COIN, NULL);
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(PlayLayer::notifiRock),
-                                                                  NOTIFI_MEET_ROCK, NULL);
-    
-	*/
+	 setDebug(true);
+
     return true;
 }
 
@@ -269,17 +229,17 @@ void PlayLayer::BeginContact(b2Contact* contact)
             obj = static_cast<CCPhysicsSprite*>(bodyUserDataA);
         }
         
-        if (COINTAG == obj->getTag()) {
+        if (SpriteTagcoin == obj->getTag()) {
            ((StatusLayer*)(this->getParent()->getChildByTag(TAG_STATUSLAYER)))->addCoin(1);
 			mRemoveObjs.push_back(obj);
             CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(PICKUPCOINS);
-        }else if(ROCKTAG == obj->getTag())
+        }else if(SpriteTagmonster == obj->getTag())
         {
-           /* mRunner->die();
+			//runner->die();
             unscheduleUpdate();
-            mState = GameOverState;
-            GameOver* over = GameOver::create();
-            this->getParent()->addChild(over);*/
+            //state = GameOverState;
+            //GameOver* over = GameOver::create();
+            //this->getParent()->addChild(over);
         }
         
     }

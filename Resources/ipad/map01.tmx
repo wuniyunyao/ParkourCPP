@@ -32,5 +32,7 @@
   <object x="1677" y="496" width="42" height="39"/>
   <object x="1739" y="495" width="42" height="40"/>
  </objectgroup>
- <objectgroup name="TrapObjects" width="96" height="24"/>
+ <objectgroup name="MonsterObjects" width="96" height="24">
+  <object x="2272" y="352" width="64" height="64"/>
+ </objectgroup>
 </map>

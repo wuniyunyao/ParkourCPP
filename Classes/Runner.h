@@ -13,7 +13,7 @@
 #include "chipmunk.h"
 #include "cocos-ext.h"
 #include "Box2D\Box2D.h"
-#include "Resources.h"
+#include "Constant.h"
 USING_NS_CC;
 
 enum RunnerStat

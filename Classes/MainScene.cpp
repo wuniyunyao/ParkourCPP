@@ -9,7 +9,7 @@
 #include "MainScene.h"
 #include "PlayScene.h"
 #include "SimpleAudioEngine.h"
-#include "Resources.h"
+#include "Constant.h"
 USING_NS_CC;
 
 CCScene* MainLayer::scene()

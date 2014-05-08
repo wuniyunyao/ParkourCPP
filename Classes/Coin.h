@@ -29,9 +29,8 @@ public:
         return &sprite->getContentSize();
 	}
 private:
-    //cpSpace *pSpace;//weak ref
-    //b2Shape *pShape;
-    b2Body *pBody;
+   
+	b2Body *pBody;
 
 };
 

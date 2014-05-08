@@ -19,18 +19,20 @@ curMap(0)
 	this->mSpritesheet = spritesheet;
 
     this->map0 = Map::create(0);
-	//this->map0->setVisible(false);
+	this->map0->setVisible(false);
     parent->addChild(this->map0,0);
 	tool.readTiledMapForBlocks(mWorld,this->map0->map);
 	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map0->map);
+	tool.readTiledMapForMonsters(mSpritesheet, mWorld,this->map0->map);
 
     spriteWidth = this->map0->map->getContentSize().width;
 
     this->map1 = Map::create(1);
-	//this->map1->setVisible(false);
+	this->map1->setVisible(false);
     parent->addChild(this->map1,0);
 	tool.readTiledMapForBlocks(mWorld,this->map1->map,spriteWidth);
 	tool.readTiledMapForCoins(mSpritesheet, mWorld,this->map1->map,spriteWidth);
+	tool.readTiledMapForMonsters(mSpritesheet, mWorld,this->map1->map,spriteWidth);
 }
 
 MapManager::~MapManager()
@@ -59,5 +61,6 @@ bool MapManager::checkAndReload(float eyeX)
     currentMap->reload(curMap + 1);
 	tool.readTiledMapForBlocks(mWorld,currentMap->map,spriteWidth*(curMap + 1));
 	tool.readTiledMapForCoins(mSpritesheet, mWorld,currentMap->map,spriteWidth*(curMap + 1));
+	tool.readTiledMapForMonsters(mSpritesheet, mWorld,currentMap->map,spriteWidth*(curMap + 1));
     return true;
 }

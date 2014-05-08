@@ -22,12 +22,14 @@ public:
 	float32 friction;
     float32 restitution;
     float32 density;
+	boolean isSensor;
 	IdentifiedObject(){
 		density = 1.0f;
 		friction = 0;
 		restitution = 0;
 		fixture = NULL;
 		body = NULL;
+		isSensor = false;
 	};
 };
 #endif //__STATICBLOCKOBJECT_H_
